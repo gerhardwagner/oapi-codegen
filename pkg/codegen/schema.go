@@ -37,6 +37,8 @@ type Schema struct {
 	// Can be overriden by the OutputOptions#DisableTypeAliasesForType field
 	DefineViaAlias bool
 
+	ExternalRef bool
+
 	// The original OpenAPIv3 Schema.
 	OAPISchema *openapi3.Schema
 }
@@ -251,16 +253,26 @@ func GenerateGoSchema(sref *openapi3.SchemaRef, path []string) (Schema, error) {
 	// another type. We're not de-referencing, so simply use the referenced type.
 	if IsGoTypeReference(sref.Ref) {
 		// Convert the reference path to Go type
-		refType, err := RefPathToGoType(sref.Ref)
+		goType, err := RefPathToGoType(sref.Ref)
 		if err != nil {
 			return Schema{}, fmt.Errorf("error turning reference (%s) into a Go type: %s",
 				sref.Ref, err)
 		}
+
+		external := !strings.HasPrefix(sref.Ref, "#")
+		refType := ""
+
+		if !external {
+			refType = goType
+		}
+
 		return Schema{
-			GoType:         refType,
+			GoType:         goType,
+			RefType:        refType,
 			Description:    schema.Description,
 			DefineViaAlias: true,
 			OAPISchema:     schema,
+			ExternalRef:    external,
 		}, nil
 	}
 
