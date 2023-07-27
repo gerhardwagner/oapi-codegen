@@ -379,6 +379,8 @@ func Generate(spec *openapi3.T, opts Configuration) (string, error) {
 		return goCode, nil
 	}
 
+	imports.LocalPrefix = opts.OutputOptions.LocalImportsPrefix
+
 	outBytes, err := imports.Process(opts.PackageName+".go", []byte(goCode), nil)
 	if err != nil {
 		return "", fmt.Errorf("error formatting Go code %s: %w", goCode, err)
