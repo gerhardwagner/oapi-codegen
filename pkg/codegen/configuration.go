@@ -100,6 +100,7 @@ type OutputOptions struct {
 	ResponseTypeSuffix  string   `yaml:"response-type-suffix,omitempty"` // The suffix used for responses types
 	ClientTypeName      string   `yaml:"client-type-name,omitempty"`     // Override the default generated client type with the value
 	InitialismOverrides bool     `yaml:"initialism-overrides,omitempty"` // Whether to use the initialism overrides
+	LocalImportsPrefix  string   `yaml:"local-imports-prefix,omitempty"` // If set sorting of imports will add a group after 3rd party imports for imports with this prefix
 	NullableType        bool     `yaml:"nullable-type,omitempty"`        // Whether to generate nullable type for nullable fields
 
 	// DisableTypeAliasesForType allows defining which OpenAPI `type`s will explicitly not use type aliases
