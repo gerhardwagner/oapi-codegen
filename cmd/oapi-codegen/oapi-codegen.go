@@ -1,4 +1,4 @@
-// Copyright 2019 DeepMap, Inc.
+// Copyright 2019 gerhardwagner, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,8 +25,8 @@ import (
 
 	"gopkg.in/yaml.v2"
 
-	"github.com/deepmap/oapi-codegen/pkg/codegen"
-	"github.com/deepmap/oapi-codegen/pkg/util"
+	"github.com/gerhardwagner/oapi-codegen/pkg/codegen"
+	"github.com/gerhardwagner/oapi-codegen/pkg/util"
 )
 
 func errExit(format string, args ...interface{}) {
