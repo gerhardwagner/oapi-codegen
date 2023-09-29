@@ -1,4 +1,4 @@
-// Copyright 2019 DeepMap, Inc.
+// Copyright 2019 gerhardwagner, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -25,7 +25,7 @@ import (
 
 	"github.com/getkin/kin-openapi/openapi3"
 
-	"github.com/deepmap/oapi-codegen/v2/pkg/util"
+	"github.com/gerhardwagner/oapi-codegen/v2/pkg/util"
 )
 
 type ParameterDefinition struct {
