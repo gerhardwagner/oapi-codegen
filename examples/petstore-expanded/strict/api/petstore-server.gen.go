@@ -320,7 +320,7 @@ func (response FindPets200JSONResponse) VisitFindPetsResponse(w http.ResponseWri
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
-	return json.NewEncoder(w).Encode(response)
+	return json.NewEncoder(w).Encode([]Pet(response))
 }
 
 type FindPetsdefaultJSONResponse struct {
@@ -332,7 +332,7 @@ func (response FindPetsdefaultJSONResponse) VisitFindPetsResponse(w http.Respons
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.StatusCode)
 
-	return json.NewEncoder(w).Encode(response.Body)
+	return json.NewEncoder(w).Encode(Error(response.Body))
 }
 
 type AddPetRequestObject struct {
@@ -349,7 +349,7 @@ func (response AddPet200JSONResponse) VisitAddPetResponse(w http.ResponseWriter)
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
-	return json.NewEncoder(w).Encode(response)
+	return json.NewEncoder(w).Encode(Pet(response))
 }
 
 type AddPetdefaultJSONResponse struct {
@@ -361,7 +361,7 @@ func (response AddPetdefaultJSONResponse) VisitAddPetResponse(w http.ResponseWri
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.StatusCode)
 
-	return json.NewEncoder(w).Encode(response.Body)
+	return json.NewEncoder(w).Encode(Error(response.Body))
 }
 
 type DeletePetRequestObject struct {
@@ -389,7 +389,7 @@ func (response DeletePetdefaultJSONResponse) VisitDeletePetResponse(w http.Respo
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.StatusCode)
 
-	return json.NewEncoder(w).Encode(response.Body)
+	return json.NewEncoder(w).Encode(Error(response.Body))
 }
 
 type FindPetByIDRequestObject struct {
@@ -406,7 +406,7 @@ func (response FindPetByID200JSONResponse) VisitFindPetByIDResponse(w http.Respo
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
-	return json.NewEncoder(w).Encode(response)
+	return json.NewEncoder(w).Encode(Pet(response))
 }
 
 type FindPetByIDdefaultJSONResponse struct {
@@ -418,7 +418,7 @@ func (response FindPetByIDdefaultJSONResponse) VisitFindPetByIDResponse(w http.R
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(response.StatusCode)
 
-	return json.NewEncoder(w).Encode(response.Body)
+	return json.NewEncoder(w).Encode(Error(response.Body))
 }
 
 // StrictServerInterface represents all server handlers.

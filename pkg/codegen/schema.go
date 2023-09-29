@@ -35,6 +35,8 @@ type Schema struct {
 	// type definition `type Foo bool`
 	DefineViaAlias bool
 
+	ExternalRef bool
+
 	// The original OpenAPIv3 Schema.
 	OAPISchema *openapi3.Schema
 }
@@ -237,6 +239,7 @@ func GenerateGoSchema(sref *openapi3.SchemaRef, path []string) (Schema, error) {
 			return Schema{}, fmt.Errorf("error turning reference (%s) into a Go type: %s",
 				sref.Ref, err)
 		}
+
 		return Schema{
 			GoType:         refType,
 			Description:    schema.Description,

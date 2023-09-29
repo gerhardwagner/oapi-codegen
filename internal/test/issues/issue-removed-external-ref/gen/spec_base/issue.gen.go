@@ -225,7 +225,7 @@ func (response PostInvalidExtRefTrouble300JSONResponse) VisitPostInvalidExtRefTr
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(300)
 
-	return json.NewEncoder(w).Encode(response)
+	return json.NewEncoder(w).Encode(PascalSchema(response))
 }
 
 type PostNoTroubleRequestObject struct {
@@ -246,7 +246,12 @@ func (response PostNoTrouble200JSONResponse) VisitPostNoTroubleResponse(w http.R
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
-	return json.NewEncoder(w).Encode(response)
+	return json.NewEncoder(w).Encode(struct {
+		DirectBar   *DirectBar        `json:"directBar,omitempty"`
+		DirectFoo   *externalRef0.Foo `json:"directFoo,omitempty"`
+		IndirectFoo *PackedBar        `json:"indirectFoo,omitempty"`
+		Name        *string           `json:"name,omitempty"`
+	}(response))
 }
 
 // StrictServerInterface represents all server handlers.

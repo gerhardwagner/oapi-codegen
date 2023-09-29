@@ -530,7 +530,7 @@ func (response JSONExample200JSONResponse) VisitJSONExampleResponse(w http.Respo
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
-	return json.NewEncoder(w).Encode(response)
+	return json.NewEncoder(w).Encode(Example(response))
 }
 
 type JSONExample400Response = BadrequestResponse
@@ -602,7 +602,7 @@ func (response MultipleRequestAndResponseTypes200JSONResponse) VisitMultipleRequ
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(200)
 
-	return json.NewEncoder(w).Encode(response)
+	return json.NewEncoder(w).Encode(Example(response))
 }
 
 type MultipleRequestAndResponseTypes200FormdataResponse Example
@@ -700,7 +700,7 @@ func (response ReusableResponses200JSONResponse) VisitReusableResponsesResponse(
 	w.Header().Set("header2", fmt.Sprint(response.Headers.Header2))
 	w.WriteHeader(200)
 
-	return json.NewEncoder(w).Encode(response.Body)
+	return json.NewEncoder(w).Encode(Example(response.Body))
 }
 
 type ReusableResponses400Response = BadrequestResponse
@@ -920,7 +920,7 @@ func (response HeadersExample200JSONResponse) VisitHeadersExampleResponse(w http
 	w.Header().Set("header2", fmt.Sprint(response.Headers.Header2))
 	w.WriteHeader(200)
 
-	return json.NewEncoder(w).Encode(response.Body)
+	return json.NewEncoder(w).Encode(Example(response.Body))
 }
 
 type HeadersExample400Response = BadrequestResponse
@@ -963,7 +963,7 @@ func (response UnionExample200ApplicationAlternativePlusJSONResponse) VisitUnion
 	w.Header().Set("header2", fmt.Sprint(response.Headers.Header2))
 	w.WriteHeader(200)
 
-	return json.NewEncoder(w).Encode(response.Body)
+	return json.NewEncoder(w).Encode(Example(response.Body))
 }
 
 type UnionExample200JSONResponse struct {
@@ -979,7 +979,9 @@ func (response UnionExample200JSONResponse) VisitUnionExampleResponse(w http.Res
 	w.Header().Set("header2", fmt.Sprint(response.Headers.Header2))
 	w.WriteHeader(200)
 
-	return json.NewEncoder(w).Encode(response.Body.union)
+	return json.NewEncoder(w).Encode(struct {
+		union json.RawMessage
+	}(response.Body.union))
 }
 
 type UnionExample400Response = BadrequestResponse
