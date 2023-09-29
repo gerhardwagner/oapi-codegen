@@ -3,7 +3,7 @@
 This little server is an example demonstrating how JWT's can be handled somewhat
 automatically with per-path validation of scopes.
 
-We use similar code in production at DeepMap, and this example shows how authenticated
+We use similar code in production at gerhardwagner, and this example shows how authenticated
 API's can be written, as well as unit tested.
 
 Some parts of this code can be generalized in the future, but for now, feel free

@@ -1,4 +1,4 @@
-// Copyright 2019 DeepMap, Inc.
+// Copyright 2019 gerhardwagner, Inc.
 //
 // Licensed under the Apache License, Version 2.0 (the "License");
 // you may not use this file except in compliance with the License.
@@ -26,7 +26,7 @@ import (
 	"strings"
 	"time"
 
-	"github.com/deepmap/oapi-codegen/pkg/types"
+	"github.com/gerhardwagner/oapi-codegen/pkg/types"
 	"github.com/google/uuid"
 )
 
@@ -73,7 +73,7 @@ func StyleParamWithLocation(style string, explode bool, paramName string, paramL
 	}
 
 	// If the value implements encoding.TextMarshaler we use it for marshaling
-	// https://github.com/deepmap/oapi-codegen/issues/504
+	// https://github.com/gerhardwagner/oapi-codegen/issues/504
 	if tu, ok := value.(encoding.TextMarshaler); ok {
 		t := reflect.Indirect(reflect.ValueOf(value)).Type()
 		convertableToTime := t.ConvertibleTo(reflect.TypeOf(time.Time{}))
