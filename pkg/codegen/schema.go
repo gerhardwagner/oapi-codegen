@@ -27,6 +27,8 @@ type Schema struct {
 
 	Description string // The description of the element
 
+	// if this schema will be declared as new type or alias type but has a Union this is set to true
+	RefUnion      bool
 	UnionElements []UnionElement // Possible elements of oneOf/anyOf union
 	Discriminator *Discriminator // Describes which value is stored in a union
 
@@ -237,10 +239,14 @@ func GenerateGoSchema(sref *openapi3.SchemaRef, path []string) (Schema, error) {
 			return Schema{}, fmt.Errorf("error turning reference (%s) into a Go type: %s",
 				sref.Ref, err)
 		}
+
+		refUnion := len(schema.AnyOf)+len(schema.OneOf) > 0
+
 		return Schema{
 			GoType:         refType,
 			Description:    schema.Description,
 			DefineViaAlias: true,
+			RefUnion:       refUnion,
 			OAPISchema:     schema,
 		}, nil
 	}
