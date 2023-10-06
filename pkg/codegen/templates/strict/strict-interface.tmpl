@@ -43,12 +43,12 @@
                 type {{$receiverTypeName}} string
             {{else if and $fixedStatusCode $isRef -}}
                 {{ if and (not $hasHeaders) ($fixedStatusCode) (.IsSupported) (eq .NameTag "Multipart") -}}
-                type {{$receiverTypeName}} {{$ref}}{{.NameTagOrContentType}}Response
+                    type {{$receiverTypeName}} {{$ref}}{{.NameTagOrContentType}}Response
                 {{else -}}
-                type {{$receiverTypeName}} struct{ {{$ref}}{{.NameTagOrContentType}}Response }
+                    type {{$receiverTypeName}} struct{ {{$ref}}{{.NameTagOrContentType}}Response }
                 {{end}}
             {{else if and (not $hasHeaders) ($fixedStatusCode) (.IsSupported) -}}
-                type {{$receiverTypeName}} {{if eq .NameTag "Multipart"}}func(writer *multipart.Writer)error{{else if .IsSupported}}{{if .Schema.IsRef}}={{end}} {{.Schema.TypeDecl}}{{else}}io.Reader{{end}}
+                type {{$receiverTypeName}} {{if eq .NameTag "Multipart"}}func(writer *multipart.Writer)error{{else if .IsSupported}}{{if and .Schema.IsRef (not $isExternalRef)}}={{end}} {{.Schema.TypeDecl}}{{else}}io.Reader{{end}}
             {{else -}}
                 type {{$receiverTypeName}} struct {
                     Body {{if eq .NameTag "Multipart"}}func(writer *multipart.Writer)error{{else if .IsSupported}}{{.Schema.TypeDecl}}{{else}}io.Reader{{end}}
@@ -86,8 +86,16 @@
                 w.WriteHeader({{if $fixedStatusCode}}{{$statusCode}}{{else}}response.StatusCode{{end}})
                 {{$hasBodyVar := or ($hasHeaders) (not $fixedStatusCode) (not .IsSupported)}}
                 {{if .IsJSON -}}
-                    {{$hasUnionElements := ne 0 (len .Schema.UnionElements)}}
-                    return json.NewEncoder(w).Encode(response{{if $hasBodyVar}}.Body{{end}}{{if $hasUnionElements}}.union{{end}})
+                    {{if $isExternalRef -}}
+                        {{if and $fixedStatusCode $isRef -}}
+                            return json.NewEncoder(w).Encode(response)
+                        {{else -}}
+                            return json.NewEncoder(w).Encode({{$ref}}(response))
+                        {{end -}}
+                    {{else -}}
+                        {{$hasUnionElements := or (ne 0 (len .Schema.UnionElements))}}
+                        return json.NewEncoder(w).Encode(response{{if $hasBodyVar}}.Body{{end}}{{if $hasUnionElements}}.union{{end}})
+                    {{end -}}
                 {{else if eq .NameTag "Text" -}}
                     _, err := w.Write([]byte({{if $hasBodyVar}}response.Body{{else}}response{{end}}))
                     return err
